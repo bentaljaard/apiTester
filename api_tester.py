@@ -20,20 +20,21 @@ def flatten_text(text):
 
 def genTestFunc():
     def test_api(self):
+        print("Running test")
         self.mock_requests = {}
         # invoke service to be tested
         client = AsyncHTTPClient(self.io_loop)
 
         client.fetch(self.test_data['service_endpoint'], self.stop)
-        response = self.wait()
+        
 
         mocks_with_assertions = [x for x in self.test_data['mocks'] if 'body' in x['mock']['request']]
         for mock in mocks_with_assertions:
             self.wait(timeout=30)
             self.assertEqual(flatten_text(self.mock_requests[mock['mock']['name']].decode("utf-8")), flatten_text(mock['mock']['request']['body']))
             #TODO: Assert request headers
-
-        print(response)
+        response = self.wait()
+        # print(response)
 
         # perform assertions
         for assertion in self.test_data['assertions']:
@@ -52,8 +53,20 @@ def genSetup(filename):
         with open(filename) as data_file:
             self.test_data = yaml.load(data_file)
         print(filename)
+        # Run specified setup
+        exec(self.test_data['setup']['code'])
     return setUp
             
+def genTeardown(filename):
+
+    def tearDown(self):
+        super(BaseClass,self).tearDown()
+        with open(filename) as data_file:
+            self.test_data = yaml.load(data_file)
+        print(filename)
+        # Run specified teardown
+        exec(self.test_data['teardown']['code'])
+    return tearDown
  
 class BaseClass(AsyncHTTPTestCase):
 
@@ -75,7 +88,7 @@ def generate_tst_classes(folder):
     tests = get_yaml_files(folder)
     for test in tests:
         testName = "test_" + test.split(".")[0]
-        globals()[testName] = type(testName,(BaseClass,),{"setUp":genSetup(folder + "/" + test), testName: genTestFunc()})
+        globals()[testName] = type(testName,(BaseClass,),{"setUp":genSetup(folder + "/" + test),"tearDown":genTeardown(folder + "/" + test), testName: genTestFunc()})
 
 
 if __name__ == '__main__':

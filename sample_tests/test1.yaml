@@ -1,5 +1,5 @@
 name: test_api_reponse
-service_endpoint: http://localhost:8888/xml
+service_endpoint: http://localhost:8889
 request: None
 method: GET
 assertions:
@@ -10,10 +10,20 @@ assertions:
                 <soapenv:Header/>
                 <soapenv:Body>
                   <exam:output>
-                    <exam:result>Success!</exam:result>
+                    <exam:result>SuccessGlobal!</exam:result>
                   </exam:output>
                 </soapenv:Body>
               </soapenv:Envelope>'
+setup:
+  code: | 
+    import os
+    print(os.listdir("/home"))
+    print("this is my setup method speaking")
+    print("Is this really so easy?")
+    print("Nope")
+teardown:
+  code: | 
+    print("this is my teardown method speaking")
 mocks:
   - mock:
       name: xmlmock
@@ -54,7 +64,7 @@ mocks:
                   <soapenv:Header/>
                   <soapenv:Body>
                     <exam:output>
-                      <exam:result>Success!</exam:result>
+                      <exam:result>Success1!</exam:result>
                     </exam:output>
                  </soapenv:Body>
                </soapenv:Envelope>'
@@ -81,7 +91,7 @@ mocks:
                   <soapenv:Header/>
                   <soapenv:Body>
                     <exam:output>
-                      <exam:result>Success!</exam:result>
+                      <exam:result>Success2!</exam:result>
                     </exam:output>
                  </soapenv:Body>
                </soapenv:Envelope>'
