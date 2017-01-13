@@ -58,7 +58,7 @@ def register_app():
 if __name__=="__main__":
 	
 	parser = argparse.ArgumentParser(prog='test_api.py',description="Simple orchestration service to use for demo")
-	parser.add_argument('--port', '-p', help='Specify the listening port for your mock api', default=8888)
+	parser.add_argument('--port', '-p', help='Specify the listening port for your mock api', default=8889)
 	parser.add_argument('--version', action='version', version='%(prog)s '+ __version__, help='Print the test_api version')
 	args = parser.parse_args()
 	
