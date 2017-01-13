@@ -1,3 +1,4 @@
 PyYAML==3.12
 backports-abc==0.5
+requests==2.12.4
 tornado==4.4.2
