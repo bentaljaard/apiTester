@@ -80,7 +80,7 @@ class BaseClass(AsyncHTTPTestCase):
 
 
 def get_yaml_files(path):
-    files = os.listdir(path)
+    files = os.listdir(os.path.abspath(path))
     return filter(lambda file: re.match(".*\.yaml$", file), files)
 
 

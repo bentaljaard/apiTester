@@ -8,13 +8,13 @@
 
 #python3 -m tornado.test.runtests api_tester.py -v
 #nosetests api_tester.py --verbosity=3
-export test_folder=sample/tests
+export test_folder="../samples/tests"
 
 nohup python3 api/test_api.py 2>&1>/dev/null &
 # Storing the background process' PID.
 bg_pid=$!
 
-cd ..
+cd ../api_tester
 python3 -m unittest api_tester.py -v
 
 # Also possible to run as a main function and pass commandline options
