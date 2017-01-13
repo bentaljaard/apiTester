@@ -104,7 +104,7 @@ if __name__ == '__main__':
     unittest.main()
 
 else:
-    folder = os.environ.get("test_folder", "sample_tests")
+    folder = os.environ.get("test_folder", "samples/tests")
     port = os.environ.get("test_port", "8888")
     generate_tst_classes(folder)
 
